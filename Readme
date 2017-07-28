@@ -1,0 +1,2 @@
+#py.test -v -s --browser firefox --alluredir report
+#allure generate report
