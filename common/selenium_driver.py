@@ -15,7 +15,7 @@ class SeleniumDriver:
     def __init__(self, driver):
         self.driver = driver
 
-    def waitForElement(self, by_type, locator, timeout = 20):
+    def wait_for_element(self, by_type, locator, timeout = 20):
         element = None
         try:
             print("Waiting for maximum :: {0} :: seconds for element :: {1} :: to be clickable {2}".format(str(timeout), locator, str(datetime.datetime.now().strftime("%Y%m%d %H:%M:%S"))))
@@ -32,7 +32,7 @@ class SeleniumDriver:
         if element is not None:
             return element
 
-    def waitForAngularJS(self, by_type, locator, timeout = 20):
+    def wait_for_angularJS(self, by_type, locator, timeout = 20):
         element = None
         try:
             print("Waiting for maximum :: {0} :: seconds for element :: {1} :: to be clickable {2}".format(str(timeout), locator, str(datetime.datetime.now().strftime("%Y%m%d %H%M%S"))))
@@ -47,7 +47,7 @@ class SeleniumDriver:
         if element is not None:
             return element
 
-    def waitForAngular2(self, by_type, locator, timeout = 20):
+    def wait_for_angular2(self, by_type, locator, timeout = 20):
         element = None
         hasAngularFinishedScript_2 = """
         try {
@@ -91,24 +91,7 @@ class SeleniumDriver:
         if element is not None:
             return element
 
-    def getTitle(self):
+    def get_title(self):
         return self.driver.title
-
-    # def screenShot(self, resultMessage):
-    #     fileName = resultMessage + "." + str(round(time.time() * 1000)) + ".png"
-    #     screenshotDirectory = "../screenshots/"
-    #     relativeFileName = screenshotDirectory + fileName
-    #     currentDirectory = os.path.dirname(__file__)
-    #     destinationFile = os.path.join(currentDirectory, relativeFileName)
-    #     destinationDirectory = os.path.join(currentDirectory, screenshotDirectory)
-    #
-    #     try:
-    #         if not os.path.exists(destinationDirectory):
-    #             os.makedirs(destinationDirectory)
-    #         self.driver.save_screenshot(destinationFile)
-    #         self.log.info("Screenshot save to directory: " + destinationFile)
-    #     except:
-    #         self.log.error("### Exception Occurred when taking screenshot")
-    #         print_stack()
 
 

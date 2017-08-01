@@ -17,24 +17,23 @@ class TestPurchaseClass(BaseTest):
         if request.cls is not None:
             request.cls.pageManager = pageManager
         with allure.step("log in on site"):
-            pageManager.login.logInOnSite(self.login, self.password)
+            pageManager.login.logIn_on_site(self.login, self.password)
         yield
         with allure.step("log Out"):
-            pageManager.login.logOut()
+            pageManager.login.delete_cookie()
 
-    # @data(*recognizeCSVData(os.getcwd()+"/resourses/testdata.csv"))
     @allure.story("To purchase course")
-    @data(*recognizeCSVData("/home/dmytro.bolyachin/TestDir/Python/myTEFL/resourses/testdata.csv"))
+    @data(*recognizeCSVData(os.path.dirname(__file__).partition("/myTEFL/")[0] + "/myTEFL/resourses/testdata.csv"))
     @unpack
     def test_purchase_course(self,  expected_result, cc_number, cc_exp_month, cc_exp_year, cc_cvv):
         pm = self.pageManager
-        pm.login.goTo('https://dev.mytefl.com/online-onsite-courses/online-tefl-courses/')
+        pm.login.go_to('https://dev.mytefl.com/online-onsite-courses/online-tefl-courses/')
         with allure.step("select professional course"):
             pm.online_course.click_on_professional_course_button()
         with allure.step("click on enroll course button"):
             pm.online_course.click_on_enroll_button()
         with allure.step("scroll page to card payment form"):
-            pm.check_out.scrollToElement(pm.check_out.getPaymentForm())
+            pm.check_out.scroll_to_element(pm.check_out.get_payment_form())
         with allure.step("click on a checkbox"):
             pm.check_out.click_on_term_checkBox()
         with allure.step("fill card payment form"):
@@ -43,5 +42,3 @@ class TestPurchaseClass(BaseTest):
             pm.check_out.click_on_order_button()
         with allure.step("chek out a result"):
             self.assertEqual(int(expected_result),pm.check_out.check_out_purchase_result(expected_result))
-
-

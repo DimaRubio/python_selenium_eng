@@ -19,38 +19,38 @@ class BasePage(SeleniumDriver):
         self.util = Util()
 
 
-    def logOut(self):
+    def delete_cookie(self):
         self.driver.delete_all_cookies()
         # self.goTo("")   #refresh page is must have
 
-    def goTo(self, value):
+    def go_to(self, value):
         with allure.step("go to: {}".format(value)):
             self.driver.get(value)
 
     def get_msg_error(self):
-        return self.waitForElement(By.XPATH, self._msg_error)
+        return self.wait_for_element(By.XPATH, self._msg_error)
 
     def get_msg_congratulations(self):
-        return self.waitForElement(By.XPATH, self._msg_congratulations)
+        return self.wait_for_element(By.XPATH, self._msg_congratulations)
 
     def get_admin_bar(self):
-        return self.waitForElement(By.XPATH, self._admin_bar)
+        return self.wait_for_element(By.XPATH, self._admin_bar)
 
-    def titleContainsText(self, titleToVerify):
+    def title_contains_text(self, titleToVerify):
         try:
-            actual_title = self.getTitle()
+            actual_title = self.get_title()
             return self.util.verifyTextContains(actual_title, titleToVerify)
         except:
             print_stack()
             return False
 
-    def elementPresent(self, element):
+    def element_present(self, element):
         if element is not None:
             return True
         else:
             return False
 
-    def scrollPage(self, direction="up"):
+    def scroll_page(self, direction="up"):
         if direction == "up":
             # Scroll Up
             self.driver.execute_script("window.scrollBy(0, -1000);")
@@ -59,13 +59,13 @@ class BasePage(SeleniumDriver):
             # Scroll Down
             self.driver.execute_script("window.scrollBy(0, 1000);")
 
-    def scrollToElement(self, element):
+    def scroll_to_element(self, element):
         self.driver.execute_script("arguments[0].scrollIntoView(true);", element)
 
     def click_on_element_by_xpath(self, locator):
-        self.waitForElement(By.XPATH, locator)
+        self.wait_for_element(By.XPATH, locator)
         self.driver.execute_script("element = document.evaluate(\"" + locator + "\", document, null, XPathResult.ANY_TYPE, null).iterateNext();if (element !== null) {element.click();};")
 
     def send_keys_by_xpath(self, locator, value):
-        self.waitForElement(By.XPATH, locator)
+        self.wait_for_element(By.XPATH, locator)
         self.driver.execute_script("element = document.evaluate(\"" + locator + "\", document, null, XPathResult.ANY_TYPE, null).iterateNext();if (element !== null) {element.value=\"" + value + "\";};")

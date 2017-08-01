@@ -25,22 +25,22 @@ class CheckOutPage(BasePage):
     def click_on_order_button(self):
         self.click_on_element_by_xpath(self._order_button)
 
-    def getPaymentForm(self):
-        return self.waitForElement(By.XPATH, self._payment_form)
+    def get_payment_form(self):
+        return self.wait_for_element(By.XPATH, self._payment_form)
 
     def get_cc_number_field(self):
-        return self.waitForElement(By.XPATH, self._cc_number_field)
+        return self.wait_for_element(By.XPATH, self._cc_number_field)
 
     def get_cc_month_dropdown(self):
-        element = self.waitForElement(By.XPATH, self._cc_month_dropdown)
+        element = self.wait_for_element(By.XPATH, self._cc_month_dropdown)
         return Select(element)
 
     def get_cc_year_dropdown(self):
-        element = self.waitForElement(By.XPATH, self._cc_year_dropdown)
+        element = self.wait_for_element(By.XPATH, self._cc_year_dropdown)
         return Select(element)
 
     def get_cc_cvc_field(self):
-        return self.waitForElement(By.XPATH, self._cc_cvc_field)
+        return self.wait_for_element(By.XPATH, self._cc_cvc_field)
 
     def fill_form(self, cc_number, cc_exp_month, cc_exp_year, cvc):
         with allure.step("enter card number"):

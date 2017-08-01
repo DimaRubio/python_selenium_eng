@@ -14,19 +14,19 @@ class LoginPage(BasePage):
     _menu_mobile = "//ul[contains(@class,'nav-bar__menu-list_mobile')]"
     _menu = "//ul[@class='nav-bar__menu-list']"
 
-    def getEmailField(self):
-        return  self.waitForElement(By.XPATH, self._email_field)
+    def get_email_field(self):
+        return  self.wait_for_element(By.XPATH, self._email_field)
 
-    def getPasswordField(self):
-        return  self.waitForElement(By.XPATH, self._password_field)
+    def get_password_field(self):
+        return  self.wait_for_element(By.XPATH, self._password_field)
 
     def click_on_element_by_xpath(self, locator):
         self.driver.execute_script("element = document.evaluate(\"" + locator + "\", document, null, XPathResult.ANY_TYPE, null).iterateNext();if (element !== null) {element.click();};")
 
-    def logInOnSite(self, login, password):
-        self.logOut()
-        self.goTo('https://dev.mytefl.com/lp-profile/')
-        self.getEmailField().send_keys(login)
-        self.getPasswordField().send_keys(password)
+    def logIn_on_site(self, login, password):
+        self.delete_cookie()
+        self.go_to('https://dev.mytefl.com/lp-profile/')
+        self.get_email_field().send_keys(login)
+        self.get_password_field().send_keys(password)
         self.click_on_element_by_xpath(self._login_button)
         assert  self.get_admin_bar() is not None
