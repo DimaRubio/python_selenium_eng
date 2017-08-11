@@ -27,8 +27,9 @@ class SeleniumDriver:
             print("JS request is completed at time: " + str(datetime.datetime.now().strftime("%Y%m%d %H:%M:%S")))
             element = wait.until(EC.element_to_be_clickable((by_type, locator)))
             print("Element appeared on the web page {0}".format(locator))
-        except Exception as e:
+        except TimeoutException as e:
             print(str(e))
+            # raise TimeoutException
         if element is not None:
             return element
 
@@ -87,11 +88,37 @@ class SeleniumDriver:
             # wait.until(EC.element_to_be_clickable(locator))
             print("Element appeared on the web page {0}".format(locator))
         except Exception as e:
-            print(str(e))
+            print("Element isn't appeared on the web page, details:"+str(e))
         if element is not None:
             return element
 
     def get_title(self):
         return self.driver.title
+
+    def wait_for_allert(self, timeout = 5):
+        try:
+            print("Waiting for maximum :: {0} :: seconds for alert to be clickable {1}".format(str(timeout), str(datetime.datetime.now().strftime("%Y%m%d %H:%M:%S"))))
+            wait = WebDriverWait(self.driver, timeout)
+            wait.until(EC.alert_is_present())
+            print("Allert appeared on the web page ")
+        except NoAlertPresentException as e:
+            print(str(e))
+
+    def wait_for_allert_is_not_present(self, timeout = 5):
+        try:
+            print("Waiting for maximum :: {0} :: seconds for alert to be clickable {1}".format(str(timeout), str(datetime.datetime.now().strftime("%Y%m%d %H:%M:%S"))))
+            wait = WebDriverWait(self.driver, timeout)
+            wait.until(self.allert_is_not_present())
+            print("Allert appeared on the web page ")
+        except NoAlertPresentException as e:
+            print(str(e))
+
+    def allert_is_not_present(self):
+        try:
+            text = self.driver.switch_to.alert.text
+            return False
+        except NoAlertPresentException:
+            return True
+
 
 

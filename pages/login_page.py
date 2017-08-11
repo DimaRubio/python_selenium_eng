@@ -20,13 +20,16 @@ class LoginPage(BasePage):
     def get_password_field(self):
         return  self.wait_for_element(By.XPATH, self._password_field)
 
-    def click_on_element_by_xpath(self, locator):
-        self.driver.execute_script("element = document.evaluate(\"" + locator + "\", document, null, XPathResult.ANY_TYPE, null).iterateNext();if (element !== null) {element.click();};")
+    # def click_on_element_by_xpath(self, locator):
+    #     self.driver.execute_script("element = document.evaluate(\"" + locator + "\", document, null, XPathResult.ANY_TYPE, null).iterateNext();if (element !== null) {element.click();};")
 
     def logIn_on_site(self, login, password):
         self.delete_cookie()
         self.go_to('https://dev.mytefl.com/lp-profile/')
         self.get_email_field().send_keys(login)
         self.get_password_field().send_keys(password)
+        self.wait_for_element(By.XPATH, self._login_button)
         self.click_on_element_by_xpath(self._login_button)
-        assert  self.get_admin_bar() is not None
+        assert  self.get_dashboard_button() is not None
+
+

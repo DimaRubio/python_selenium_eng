@@ -1,3 +1,4 @@
+import allure
 import pytest
 from selenium import webdriver
 from pages.page_manager import PageManager
@@ -61,3 +62,28 @@ def browser(request):
 @pytest.fixture(scope="session")
 def osType(request):
     return request.config.getoption("--osType")
+
+@pytest.fixture(scope="class")
+def create_user(request, driver_set_up):
+    driver = driver_set_up.instance
+    pm = PageManager(driver)
+
+    # pm.login.logIn_on_site("dmytro.bolyachin@extrawest.com","pr0st0123456")
+    # pm.login.logIn_on_site("test20170811104838@test.qa","123456") #баг с расчетом процентов
+
+    # pm.login.logIn_on_site("user20170801134255@test.qa","123456")
+    # pm.login.logIn_on_site("test20170803164724@test.qa","123456")
+    # pm.login.logIn_on_site("test20170807172826@test.qa","123456")
+    # pm.login.logIn_on_site("test20170809102650@test.qa","123456")
+    # pm.login.logIn_on_site("test20170811163615@test.qa","123456")
+
+    with allure.step("create user"):
+        pm.login.delete_cookie()
+        pm.login.go_to('https://dev.mytefl.com/online-onsite-courses/online-tefl-courses/')
+        with allure.step("select professional course"):
+            pm.select_course.click_on_professional_course_button()
+        with allure.step("click on enroll course button"):
+            pm.select_course.click_on_enroll_button()
+        pm.check_out.create_new_user()
+
+    request.cls.pm = pm
