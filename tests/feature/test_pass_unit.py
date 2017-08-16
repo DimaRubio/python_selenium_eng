@@ -28,7 +28,7 @@ class TestPassUnit(BaseTest):
 
     @allure.story("User hasn't ability learn next unit if your current unit scope less than 65%")
     @pytest.mark.run(after='test_inaccessibility_next_unit_over_click_on_next_button')
-    def testtest_inaccessibility_next_unit_over_select_lesson(self):
+    def test_inaccessibility_next_unit_over_select_lesson(self):
         self.pm.lp_courses.go_to("/lp-courses/")
         with allure.step("Try to learn first lesson in second unit"):
             #click on first lesson in unit №2
@@ -81,4 +81,4 @@ class TestPassUnit(BaseTest):
     def test_reset_unit_twice(self):
         self.pm.lp_courses.go_to("/lp-courses/")
         with allure.step("Check that reset button is not displayed"):
-            assert self.pm.lp_courses.reset_button_is_displayed() is True
+            assert self.pm.lp_courses.reset_button_is_displayed() is False

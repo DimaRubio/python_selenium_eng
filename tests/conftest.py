@@ -69,14 +69,6 @@ def create_user(request, driver_set_up):
     pm = PageManager(driver)
 
     # pm.login.logIn_on_site("dmytro.bolyachin@extrawest.com","pr0st0123456")
-    # pm.login.logIn_on_site("test20170811104838@test.qa","123456") #баг с расчетом процентов
-
-    # pm.login.logIn_on_site("user20170801134255@test.qa","123456")
-    # pm.login.logIn_on_site("test20170803164724@test.qa","123456")
-    # pm.login.logIn_on_site("test20170807172826@test.qa","123456")
-    # pm.login.logIn_on_site("test20170809102650@test.qa","123456")
-    # pm.login.logIn_on_site("test20170811163615@test.qa","123456")
-
     with allure.step("create user"):
         pm.login.delete_cookie()
         pm.login.go_to('https://dev.mytefl.com/online-onsite-courses/online-tefl-courses/')

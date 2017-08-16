@@ -13,10 +13,12 @@ class QuizContentPage(BasePage):
     _prev_question_button = "//button[@data-nav='prev']"
     _submit_exam_button = "//button[@data-area='nav']"
     _count_question = "//span[@class='quiz-mark']/small"
-    _count_right_questions = "//span[@class='quiz-mark']" #block with mark, to use 'text' to get the result
+    _mark = "//span[@class='quiz-mark']" #block with mark, to use 'text' to get the result
     _answer_number = "//ul[@class='learn-press-question-options']/li"
-    _answer_number_str = "//div[@id='learn-press-quiz-description']//li"
-    _question_number_str = ".quiz-question-content"
+    _answer_number_input = "//div[@id='learn-press-quiz-description']//li"
+    _question_number_input = ".quiz-question-content"
+    _saved_answer = "//input[@checked='checked']/.."
+    _saved_answer_input = "//div[@class='question-passage']//input"
 
 
     def get_next_button(self):
@@ -53,13 +55,48 @@ class QuizContentPage(BasePage):
                 self.click_on_element_by_xpath(self._submit_exam_button)
             count -= 1
 
+    def get_reported_answers(self, answer_list):
+        count = len(answer_list)
+        values = []
+        for answer_number in answer_list:
+            locator = self._answer_number + "[{}]//input".format(answer_number)
+            el = self.wait_for_element(By.XPATH, locator)
+            self.click_on_element_by_js(el)
+            values.append(self.wait_for_element(By.XPATH, self._answer_number+"[{}]/label".format(answer_number)).text)
+            #to take up the next question
+            if count > 1 :
+                self.click_on_next_question_button()
+            #Submit exam
+            else:
+                self.click_on_element_by_xpath(self._submit_exam_button)
+            count -= 1
+        return values
+
+    #for quiz is a set of radio buttons
+    def get_saved_answer_list(self, count_lessons):
+        self.wait_for_element(By.XPATH, self._mark)
+        list = self.driver.find_elements(By.XPATH, self._saved_answer)
+        values = []
+        for item in list:
+            values.append(item.text)
+        return values
+
+    # for quiz is a set of input fields
+    def get_saved_answer_list_from_inputs(self, count_lessons):
+        self.wait_for_element(By.XPATH, self._mark)
+        list = self.driver.find_elements(By.XPATH, self._saved_answer_input)
+        values = []
+        for item in list:
+            values.append(item.get_attribute('value'))
+        return values
+
     def type_an_answer(self, answer_list):
         count = len(answer_list)
 
         for answer_number in answer_list:
-            locator = self._answer_number_str + "[{}]".format(answer_number)
+            locator = self._answer_number_input + "[{}]".format(answer_number)
             # wait while question transferred over ajax
-            self.wait_for_element(By.CSS_SELECTOR, self._question_number_str)
+            self.wait_for_element(By.CSS_SELECTOR, self._question_number_input)
             self.click_on_element_by_js(self.wait_for_element(By.XPATH, locator))
             #to take up the next question
             if count > 1 :
@@ -69,8 +106,28 @@ class QuizContentPage(BasePage):
                 self.click_on_element_by_xpath(self._submit_exam_button)
             count -= 1
 
-    def get_count_right_questions(self):
-        mark_arr = self.wait_for_element(By.XPATH, self._count_right_questions).text.split(' ')
+    def get_reported_answers_from_inputs(self, answer_list):
+        count = len(answer_list)
+        values = []
+        for answer_number in answer_list:
+            locator = self._answer_number_input + "[{}]".format(answer_number)
+            # wait while question transferred over ajax
+            self.wait_for_element(By.CSS_SELECTOR, self._question_number_input)
+            el = self.wait_for_element(By.XPATH, locator)
+            self.click_on_element_by_js(el)
+            values.append(el.text)
+            #to take up the next question
+            if count > 1 :
+                self.click_on_next_question_button()
+            #Submit exam
+            else:
+                self.click_on_element_by_xpath(self._submit_exam_button)
+            count -= 1
+        return values
+
+
+    def get_mark(self):
+        mark_arr = self.wait_for_element(By.XPATH, self._mark).text.split(' ')
         mark = mark_arr[0]
         return mark
 

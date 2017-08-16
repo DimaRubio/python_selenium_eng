@@ -27,7 +27,7 @@ class TestNavigateOverCourse:
 
     #Depending on test_completed_lesson, because lesson№1 must be completed for first data pair
 
-    @allure.story("User has ability go to the next lesson, if it has completed")
+    @allure.story("User has ability go to the next lesson, if it has been completed")
     @pytest.mark.run(after='test_completed_lesson')
     @pytest.mark.parametrize("url_input, expected", [
         ("/course/introduction-to-efl/455-the-efl-industry-overview/", 1),
@@ -41,8 +41,8 @@ class TestNavigateOverCourse:
         current_id = self.pm.lesson_content.get_id_next_button()
         assert (prev_id < current_id) == bool(expected)
 
-    @pytest.mark.run(after='test_completed_lesson')
     @allure.story("User has ability go to the previously completed lesson")
+    @pytest.mark.run(after='test_completed_lesson')
     def test_go_to_prev_lesson(self):
         self.pm.lesson_content.go_to("/course/introduction-to-efl/457-popular-efl-destinations/")
         prev_id = self.pm.lesson_content.get_id_next_button()
@@ -51,7 +51,7 @@ class TestNavigateOverCourse:
         assert (prev_id > current_id) == True
 
     @allure.story("User has't ability to skip quiz")
-    @pytest.mark.run(before='test_pass_unit_1_1')
+    @pytest.mark.run(before='test_go_to_next_lesson')
     def test_skip_quiz(self):
         with allure.step("pass first lessons"):
             self.pm.lesson_content.go_to("/course/introduction-to-efl/455-the-efl-industry-overview/")

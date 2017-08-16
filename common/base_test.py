@@ -16,8 +16,28 @@ class BaseTest():
             else:
                 self.pm.quiz_content.type_an_answer(answers[0])
             with allure.step("check results"):
-                assert answers[1] is int(self.pm.quiz_content.get_count_right_questions())
+                assert answers[1] is int(self.pm.quiz_content.get_mark())
                 # self.pm.quiz_content.click_on_next_button()
+
+    def check_reported_answers_with_saved(self, URL, count_lessons, answers, type_quiz = "radio"):
+        with allure.step("pass lessons"):
+            self.pm.lesson_content.go_to(URL)
+            self.pm.lesson_content.pass_lesson(count_lessons)
+        with allure.step("pass quiz"):
+            #this block executed when quiz is a set of radio buttons
+            if type_quiz is "radio":
+                reported_answers = self.pm.quiz_content.get_reported_answers(answers[0])
+                saved_answers = self.pm.quiz_content.get_saved_answer_list(count_lessons)
+            #this block executed when quiz is a set of input fields
+            else:
+                reported_answers = self.pm.quiz_content.get_reported_answers_from_inputs(answers[0])
+                saved_answers = self.pm.quiz_content.get_saved_answer_list_from_inputs(count_lessons)
+            with allure.step("check results"):
+                print(reported_answers, saved_answers)
+                result = list(map(lambda x, y: x == y, reported_answers, saved_answers))
+                assert 0 == result.count(False)
+
+
 
     @allure.story("User has ability to pass unit")
     def pass_unit_1_1(self, answers_1 = ((2, 4, 1, 3, 4), 5)):      #description: answers_1 = ((tuple of answers), count right answers in tuple))
