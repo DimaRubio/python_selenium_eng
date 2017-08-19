@@ -1,3 +1,4 @@
+import allure
 import pytest
 from selenium import webdriver
 from pages.page_manager import PageManager
@@ -61,3 +62,20 @@ def browser(request):
 @pytest.fixture(scope="session")
 def osType(request):
     return request.config.getoption("--osType")
+
+@pytest.fixture(scope="class")
+def create_user(request, driver_set_up):
+    driver = driver_set_up.instance
+    pm = PageManager(driver)
+
+    # pm.login.logIn_on_site("dmytro.bolyachin@extrawest.com","pr0st0123456")
+    with allure.step("create user"):
+        pm.login.delete_cookie()
+        pm.login.go_to('https://dev.mytefl.com/online-onsite-courses/online-tefl-courses/')
+        with allure.step("select professional course"):
+            pm.select_course.click_on_professional_course_button()
+        with allure.step("click on enroll course button"):
+            pm.select_course.click_on_enroll_button()
+        pm.check_out.create_new_user()
+
+    request.cls.pm = pm

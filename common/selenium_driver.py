@@ -15,7 +15,7 @@ class SeleniumDriver:
     def __init__(self, driver):
         self.driver = driver
 
-    def waitForElement(self, by_type, locator, timeout = 20):
+    def wait_for_element(self, by_type, locator, timeout = 20):
         element = None
         try:
             print("Waiting for maximum :: {0} :: seconds for element :: {1} :: to be clickable {2}".format(str(timeout), locator, str(datetime.datetime.now().strftime("%Y%m%d %H:%M:%S"))))
@@ -27,12 +27,13 @@ class SeleniumDriver:
             print("JS request is completed at time: " + str(datetime.datetime.now().strftime("%Y%m%d %H:%M:%S")))
             element = wait.until(EC.element_to_be_clickable((by_type, locator)))
             print("Element appeared on the web page {0}".format(locator))
-        except Exception as e:
+        except TimeoutException as e:
             print(str(e))
+            # raise TimeoutException
         if element is not None:
             return element
 
-    def waitForAngularJS(self, by_type, locator, timeout = 20):
+    def wait_for_angularJS(self, by_type, locator, timeout = 20):
         element = None
         try:
             print("Waiting for maximum :: {0} :: seconds for element :: {1} :: to be clickable {2}".format(str(timeout), locator, str(datetime.datetime.now().strftime("%Y%m%d %H%M%S"))))
@@ -47,7 +48,7 @@ class SeleniumDriver:
         if element is not None:
             return element
 
-    def waitForAngular2(self, by_type, locator, timeout = 20):
+    def wait_for_angular2(self, by_type, locator, timeout = 20):
         element = None
         hasAngularFinishedScript_2 = """
         try {
@@ -87,28 +88,37 @@ class SeleniumDriver:
             # wait.until(EC.element_to_be_clickable(locator))
             print("Element appeared on the web page {0}".format(locator))
         except Exception as e:
-            print(str(e))
+            print("Element isn't appeared on the web page, details:"+str(e))
         if element is not None:
             return element
 
-    def getTitle(self):
+    def get_title(self):
         return self.driver.title
 
-    # def screenShot(self, resultMessage):
-    #     fileName = resultMessage + "." + str(round(time.time() * 1000)) + ".png"
-    #     screenshotDirectory = "../screenshots/"
-    #     relativeFileName = screenshotDirectory + fileName
-    #     currentDirectory = os.path.dirname(__file__)
-    #     destinationFile = os.path.join(currentDirectory, relativeFileName)
-    #     destinationDirectory = os.path.join(currentDirectory, screenshotDirectory)
-    #
-    #     try:
-    #         if not os.path.exists(destinationDirectory):
-    #             os.makedirs(destinationDirectory)
-    #         self.driver.save_screenshot(destinationFile)
-    #         self.log.info("Screenshot save to directory: " + destinationFile)
-    #     except:
-    #         self.log.error("### Exception Occurred when taking screenshot")
-    #         print_stack()
+    def wait_for_allert(self, timeout = 5):
+        try:
+            print("Waiting for maximum :: {0} :: seconds for alert to be clickable {1}".format(str(timeout), str(datetime.datetime.now().strftime("%Y%m%d %H:%M:%S"))))
+            wait = WebDriverWait(self.driver, timeout)
+            wait.until(EC.alert_is_present())
+            print("Allert appeared on the web page ")
+        except NoAlertPresentException as e:
+            print(str(e))
+
+    def wait_for_allert_is_not_present(self, timeout = 5):
+        try:
+            print("Waiting for maximum :: {0} :: seconds for alert to be clickable {1}".format(str(timeout), str(datetime.datetime.now().strftime("%Y%m%d %H:%M:%S"))))
+            wait = WebDriverWait(self.driver, timeout)
+            wait.until(self.allert_is_not_present())
+            print("Allert appeared on the web page ")
+        except NoAlertPresentException as e:
+            print(str(e))
+
+    def allert_is_not_present(self):
+        try:
+            text = self.driver.switch_to.alert.text
+            return False
+        except NoAlertPresentException:
+            return True
+
 
 
