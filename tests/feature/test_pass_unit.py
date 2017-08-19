@@ -38,6 +38,16 @@ class TestPassUnit(BaseTest):
             assert "less than 65" in self.pm.lp_courses.driver.switch_to.alert.text
             self.pm.lp_courses.driver.switch_to.alert.accept()
 
+    @allure.story("Calculate course scope")
+    @pytest.mark.run(after='test_inaccessibility_next_unit_over_select_lesson')
+    def test_calculate_course_scope(self):
+        self.pm.lp_courses.go_to("/lp-profile/Dmytroqa/quizzes/")
+        with allure.step("Calculate course scope"):
+            scope = self.pm.lp_courses.calculate_course_scope()
+            fdf = int(scope)
+        with allure.step("Check result"):
+            assert int(scope) >= 0
+
     @allure.story("User has ability reset unit scope")
     def test_reset_unit_one(self):
         with allure.step("Get current unit scope"):
