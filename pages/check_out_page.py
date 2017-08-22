@@ -8,9 +8,8 @@ from selenium.webdriver.common.by import By
 
 class CheckOutPage(BasePage):
 
-    def __init__(self, driver):
-        super().__init__(driver)
-        self.driver = driver
+    def __init__(self):
+        super().__init__()
 
     _term_checkbox = "//input[@id='terms']"
     _order_button = "//input[@id='place_order']"

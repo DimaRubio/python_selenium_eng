@@ -4,9 +4,8 @@ import re
 
 class LPCoursesPage(BasePage):
 
-    def __init__(self, driver):
-        super().__init__(driver)
-        self.driver = driver
+    def __init__(self):
+        super().__init__()
 
     _ref_item = "//a[@data-id='{0}']"
     _reset_button = "//button[@data-id='3904']"

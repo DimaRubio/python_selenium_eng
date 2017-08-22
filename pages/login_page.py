@@ -1,11 +1,13 @@
 from common.base_page import BasePage
 from selenium.webdriver.common.by import By
 
+from common.selenium_driver import SelenDriver
+
+
 class LoginPage(BasePage):
 
-    def __init__(self, driver):
-        super().__init__(driver)
-        self.driver = driver
+    def __init__(self):
+        super().__init__()
 
     _email_field = "//input[@id='user_login']"
     _password_field = "//input[@id='user_pass']"
@@ -13,6 +15,7 @@ class LoginPage(BasePage):
     _button_up = "//div[@class='footer__sub-btn hide-on-med-only']"
     _menu_mobile = "//ul[contains(@class,'nav-bar__menu-list_mobile')]"
     _menu = "//ul[@class='nav-bar__menu-list']"
+
 
     def get_email_field(self):
         return  self.wait_for_element(By.XPATH, self._email_field)

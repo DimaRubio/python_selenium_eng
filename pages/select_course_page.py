@@ -4,9 +4,8 @@ from selenium.webdriver.common.by import By
 
 class OnlineCoursePage(BasePage):
 
-    def __init__(self, driver):
-        super().__init__(driver)
-        self.driver = driver
+    def __init__(self):
+        super().__init__()
 
     _professional_button = "//a[@href='/professional-course/']"
     _enroll_button = "//a[contains(.,'ENROLL NOW')]"
