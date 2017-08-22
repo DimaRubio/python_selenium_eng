@@ -3,9 +3,8 @@ from selenium.webdriver.common.by import By
 
 class QuizContentPage(BasePage):
 
-    def __init__(self, driver):
-        super().__init__(driver)
-        self.driver = driver
+    def __init__(self):
+        super().__init__()
 
     _next_button = "//div[contains(@class,'course-item-next')]/a"
     _prev_button = "//div[contains(@class,'course-item-prev')]/a"
