@@ -81,8 +81,8 @@ class TestPassUnit(BaseTest):
             self.pass_unit_1_3()
         with allure.step("Try to learn first lesson in second unit"):
             self.pm.lp_courses.go_to("/lp-courses/")
-            #click on first lesson in unit №2
-            self.pm.lp_courses.click_on_ref_item("3406")
+            with allure.step("click on first lesson in unit №2"):
+                self.pm.lp_courses.click_on_ref_item("3406")
         with allure.step("Check that lesson materials page is displayed"):
             assert "3406-first-impressions" in self.pm.lp_courses.driver.current_url
 

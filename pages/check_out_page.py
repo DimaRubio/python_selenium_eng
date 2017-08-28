@@ -78,6 +78,18 @@ class CheckOutPage(BasePage):
     _state_field = "//input[@id='billing_state']"
     _postcode_field = "//input[@id='billing_postcode']"
 
+    def get_first_name_field(self):
+        return self.wait_for_element(By.XPATH, self._first_name_field)
+
+    def get_last_name_field(self):
+        return self.wait_for_element(By.XPATH, self._last_name_field)
+
+    def get_phone_field(self):
+        return self.wait_for_element(By.XPATH, self._phone_field)
+
+    def get_email_field(self):
+        return self.wait_for_element(By.XPATH, self._email_field)
+
     def create_new_user(self):
         with allure.step("filling user data form"):
             time = str(datetime.datetime.now().strftime("%Y%m%d%H%M%S"))
@@ -95,13 +107,13 @@ class CheckOutPage(BasePage):
     def fill_personal_information_form(self, first_name, last_name, phone, email, country ="CR", address ="address", town = "town", state = "state", postcode = "10001"):
         ver_email_field = email
         with allure.step("enter first name"):
-            self.wait_for_element(By.XPATH, self._first_name_field).send_keys(first_name)
+            self.get_first_name_field().send_keys(first_name)
         with allure.step("enter last name"):
-            self.wait_for_element(By.XPATH, self._last_name_field).send_keys(last_name)
+            self.get_last_name_field().send_keys(last_name)
         with allure.step("enter phone"):
-            self.wait_for_element(By.XPATH, self._phone_field).send_keys(phone)
+            self.get_phone_field().send_keys(phone)
         with allure.step("enter email"):
-            self.wait_for_element(By.XPATH, self._email_field).send_keys(email)
+            self.get_email_field.send_keys(email)
         with allure.step("enter verification email"):
             self.wait_for_element(By.XPATH, self._ver_email_field).send_keys(ver_email_field)
         with allure.step("select country"):
