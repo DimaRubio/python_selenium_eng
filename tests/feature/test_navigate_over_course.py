@@ -14,7 +14,6 @@ from utilities.recognize_csv import recognizeCSVData
 class TestNavigateOverCourse:
 
     @allure.story("User has ability to mark lesson as completed")
-    @pytest.mark.run(order=1)
     def test_completed_lesson(self):
         self.pm.lesson_content.go_to("/course/introduction-to-efl/455-the-efl-industry-overview/")
         el = self.pm.lesson_content.get_continue_button()
@@ -26,7 +25,6 @@ class TestNavigateOverCourse:
             assert False
 
     #Depending on test_completed_lesson, because lesson№1 must be completed for first data pair
-
     @allure.story("User has ability go to the next lesson, if it has been completed")
     @pytest.mark.run(after='test_completed_lesson')
     @pytest.mark.parametrize("url_input, expected", [
@@ -51,9 +49,9 @@ class TestNavigateOverCourse:
         assert (prev_id > current_id) == True
 
     @allure.story("User has't ability to skip quiz")
-    @pytest.mark.run(before='test_go_to_next_lesson')
+    @pytest.mark.run(after='test_go_to_prev_lesson')
     def test_skip_quiz(self):
-        with allure.step("pass first lessons"):
+        with allure.step("pass first unit"):
             self.pm.lesson_content.go_to("/course/introduction-to-efl/455-the-efl-industry-overview/")
             self.pm.lesson_content.pass_lesson(4)
         with allure.step("wait until quiz loading"):

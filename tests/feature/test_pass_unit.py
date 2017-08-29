@@ -10,7 +10,7 @@ from ddt import ddt, data, unpack
 from utilities.recognize_csv import recognizeCSVData
 
 @pytest.mark.usefixtures("create_user")
-@allure.feature("Pass over course")
+@allure.feature("Pass units")
 class TestPassUnit(BaseTest):
 
     @allure.story("User hasn't ability learn next unit if your current unit scope less than 65%")

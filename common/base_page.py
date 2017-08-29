@@ -31,7 +31,7 @@ class BasePage():
         self.driver.delete_all_cookies()
         # self.goTo("")   #refresh page is must have
 
-    def go_to(self, value):
+    def go_to(self, value: str):
         with allure.step("go to: {}".format(value)):
             if "http" not in value:
                 self.driver.get(self._base_url + value)

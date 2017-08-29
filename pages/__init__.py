@@ -1,1 +1,1 @@
-__all__ = ['login_page', 'select_course_page', 'check_out_page', 'lesson_content_page', 'quiz_page', 'lp_courses_page']
+__all__ = ['profile_page','login_page', 'select_course_page', 'check_out_page', 'lesson_content_page', 'quiz_page', 'lp_courses_page']
