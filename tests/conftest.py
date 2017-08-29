@@ -3,42 +3,11 @@ import pytest
 from selenium import webdriver
 from pages.page_manager import PageManager
 
-
-""" One way fo run test
-"""
-class DriverManager(object):
-
-    def __init__(self, browser):
-        self._instance = None
-        self.browser_type = browser
-
-    def start(self):
-        # implement logic to create instance depends on condition
-        if self.browser_type == "firefox":
-            self._instance = webdriver.Firefox()
-        else:
-            self._instance = webdriver.Chrome()
-        self._instance.implicitly_wait(10)
-        self._instance.set_script_timeout(10);
-        self._instance.maximize_window()
-
-        return self._instance
-
-    @property
-    def instance(self):
-        if not self._instance:
-            self.start()
-        return self._instance
-
-    def stop(self):
-        self._instance.close()
-
-
 @pytest.fixture(scope="session")
-def driver_set_up(request, browser, osType):
-    driverManager = DriverManager(browser)
-    yield driverManager
-    driverManager.stop()
+def page_manager_set_up(browser):
+    pm = PageManager(browser)
+    yield pm
+    pm.login.driver.close()
 
 
 @pytest.fixture(scope="class")
@@ -48,6 +17,7 @@ def user_admin(request):
     if request.cls is not None:
         request.cls.login = login
         request.cls.password = password
+
 
 def pytest_addoption(parser):
     parser.addoption("--browser")
@@ -63,11 +33,10 @@ def browser(request):
 def osType(request):
     return request.config.getoption("--osType")
 
-@pytest.fixture(scope="class")
-def create_user(request, driver_set_up):
-    driver = driver_set_up.instance
-    pm = PageManager(driver)
 
+@pytest.fixture(scope="class")
+def create_user(request, page_manager_set_up):
+    pm = page_manager_set_up
     # pm.login.logIn_on_site("dmytro.bolyachin@extrawest.com","pr0st0123456")
     with allure.step("create user"):
         pm.login.delete_cookie()
@@ -77,5 +46,4 @@ def create_user(request, driver_set_up):
         with allure.step("click on enroll course button"):
             pm.select_course.click_on_enroll_button()
         pm.check_out.create_new_user()
-
     request.cls.pm = pm

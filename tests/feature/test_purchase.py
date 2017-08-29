@@ -16,9 +16,9 @@ unittest.TestCase
 class TestPurchaseClass(unittest.TestCase):
 
     @pytest.fixture(scope="class")
-    def classSetup(self, request, driver_set_up):
-        driver = driver_set_up.instance
-        pageManager = PageManager(driver)
+    def classSetup(self, request, page_manager_set_up):
+        # driver = driver_set_up.instance
+        pageManager = page_manager_set_up
         if request.cls is not None:
             request.cls.pageManager = pageManager
         with allure.step("log in on site"):

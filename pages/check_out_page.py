@@ -78,6 +78,35 @@ class CheckOutPage(BasePage):
     _state_field = "//input[@id='billing_state']"
     _postcode_field = "//input[@id='billing_postcode']"
 
+    def get_first_name_field(self):
+        return self.wait_for_element(By.XPATH, self._first_name_field)
+
+    def get_last_name_field(self):
+        return self.wait_for_element(By.XPATH, self._last_name_field)
+
+    def get_phone_field(self):
+        return self.wait_for_element(By.XPATH, self._phone_field)
+
+    def get_email_field(self):
+        return self.wait_for_element(By.XPATH, self._email_field)
+
+    def get_adress_field(self):
+        return self.wait_for_element(By.XPATH, self._address_field)
+
+    def get_town_field(self):
+        return self.wait_for_element(By.XPATH, self._town_field)
+
+    def get_state_field(self):
+        return self.wait_for_element(By.XPATH, self._state_field)
+
+    def get_postcode_field(self):
+        return self.wait_for_element(By.XPATH, self._postcode_field)
+
+    def get_country_field(self):
+        self.driver.execute_script(
+            "document.getElementById(\"" + self._country_field + "\").style.display = \"inline\";")
+        return Select(self.driver.find_element(By.ID, self._country_field))
+
     def create_new_user(self):
         with allure.step("filling user data form"):
             time = str(datetime.datetime.now().strftime("%Y%m%d%H%M%S"))
@@ -95,24 +124,23 @@ class CheckOutPage(BasePage):
     def fill_personal_information_form(self, first_name, last_name, phone, email, country ="CR", address ="address", town = "town", state = "state", postcode = "10001"):
         ver_email_field = email
         with allure.step("enter first name"):
-            self.wait_for_element(By.XPATH, self._first_name_field).send_keys(first_name)
+            self.get_first_name_field().send_keys(first_name)
         with allure.step("enter last name"):
-            self.wait_for_element(By.XPATH, self._last_name_field).send_keys(last_name)
+            self.get_last_name_field().send_keys(last_name)
         with allure.step("enter phone"):
-            self.wait_for_element(By.XPATH, self._phone_field).send_keys(phone)
+            self.get_phone_field().send_keys(phone)
         with allure.step("enter email"):
-            self.wait_for_element(By.XPATH, self._email_field).send_keys(email)
+            self.get_email_field().send_keys(email)
         with allure.step("enter verification email"):
             self.wait_for_element(By.XPATH, self._ver_email_field).send_keys(ver_email_field)
         with allure.step("select country"):
-            self.driver.execute_script("document.getElementById(\""+self._country_field +"\").style.display = \"inline\";")
-            Select(self.driver.find_element(By.ID, self._country_field)).select_by_value(country)
+            self.get_country_field().select_by_value(country)
         with allure.step("enter address"):
-            self.wait_for_element(By.XPATH, self._address_field).send_keys(address)
+            self.get_adress_field().send_keys(address)
         with allure.step("enter town"):
-            self.wait_for_element(By.XPATH, self._town_field).send_keys(town)
+            self.get_town_field().send_keys(town)
         with allure.step("enter state"):
-            self.wait_for_element(By.XPATH, self._state_field).send_keys(state)
-        with allure.step("enter state"):
-            self.wait_for_element(By.XPATH, self._postcode_field).send_keys(postcode)
+            self.get_state_field().send_keys(state)
+        with allure.step("enter postcode"):
+            self.get_postcode_field().send_keys(postcode)
 

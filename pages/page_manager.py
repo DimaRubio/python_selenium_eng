@@ -12,3 +12,4 @@ class PageManager:
         self.lesson_content = lesson_content_page.LessonContentPage()
         self.quiz_content = quiz_page.QuizContentPage()
         self.lp_courses = lp_courses_page.LPCoursesPage()
+        self.profile = profile_page.ProfilePage()

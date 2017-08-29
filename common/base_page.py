@@ -3,6 +3,7 @@ import datetime
 import allure
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.remote.webelement import WebElement
 
 from common.selenium_driver import *
 from selenium.common.exceptions import *
@@ -30,7 +31,7 @@ class BasePage():
         self.driver.delete_all_cookies()
         # self.goTo("")   #refresh page is must have
 
-    def go_to(self, value):
+    def go_to(self, value: str):
         with allure.step("go to: {}".format(value)):
             if "http" not in value:
                 self.driver.get(self._base_url + value)
@@ -92,7 +93,7 @@ class BasePage():
         action.move_to_element(element).perform()
         action.click(element).perform()
 
-    def wait_for_element(self, by_type, locator, timeout = 20):
+    def wait_for_element(self, by_type, locator, timeout = 20) -> WebElement:
         element = None
         try:
             print("Waiting for maximum :: {0} :: seconds for element :: {1} :: to be clickable {2}".format(str(timeout), locator, str(datetime.datetime.now().strftime("%Y%m%d %H:%M:%S"))))
