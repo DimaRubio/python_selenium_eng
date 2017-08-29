@@ -1,2 +1,2 @@
-Execute command _'py.test -v -s --browser firefox --alluredir report'_ for run test
-Execute command _allure generate report_ for generate test-report
+Execute command *py.test -v -s --browser firefox --alluredir report* for run test
+Execute command *allure generate report* for generate test-report
