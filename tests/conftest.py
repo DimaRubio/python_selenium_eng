@@ -12,8 +12,8 @@ def page_manager_set_up(browser):
 
 @pytest.fixture(scope="class")
 def user_admin(request):
-    login = "dmytro.bolyachin@extrawest.com"
-    password = "pr0st0123456"
+    login = "test@test.com"
+    password = "123456"
     if request.cls is not None:
         request.cls.login = login
         request.cls.password = password
@@ -37,10 +37,9 @@ def osType(request):
 @pytest.fixture(scope="class")
 def create_user(request, page_manager_set_up):
     pm = page_manager_set_up
-    # pm.login.logIn_on_site("dmytro.bolyachin@extrawest.com","pr0st0123456")
     with allure.step("create user"):
         pm.login.delete_cookie()
-        pm.login.go_to('https://dev.mytefl.com/online-onsite-courses/online-tefl-courses/')
+        pm.login.go_to('https://www.url.com')
         with allure.step("select professional course"):
             pm.select_course.click_on_professional_course_button()
         with allure.step("click on enroll course button"):
